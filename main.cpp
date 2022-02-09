@@ -30,6 +30,7 @@ int main() {
 
     printf("война:%d\nмир:%d", findWord(buffer,size,voyna,getLenght(voyna)),findWord(buffer,size,mir,getLenght(mir)));
     
+
     free(buffer);
     
     return 0;

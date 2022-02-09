@@ -30,13 +30,23 @@ void readFile(char* buffer, long long* size) {
 int findWord(char* text, long long Tlenght, char* Fword, int FWlenght) {
     long long Wcount = 0;
     int indicator = 0;
-
+    bool isLetter = false;
     for (int i = 0; i <= Tlenght; i++) {
-        if ((int)text[i] == (int)(Fword[indicator]) || (int)text[i]==((int)Fword[indicator]+32) || (int)text[i] == ((int)Fword[indicator] - 32)) {
+        if ((int)Fword[indicator] == -72 || ((int)Fword[indicator] >= -32 && (int)Fword[indicator] <= -1))
+            isLetter = true;
+
+        if (isLetter) {
+            if ((int)text[i] == (int)(Fword[indicator]) || (int)text[i] == ((int)Fword[indicator] + 32) || (int)text[i] == ((int)Fword[indicator] - 32)) {
+                indicator++;
+            }
+            else
+                indicator = 0;
+        }
+        else if ((int)text[i] == (int)(Fword[indicator])) {
             indicator++;
         }
-        else
-            indicator = 0;
+        else indicator = 0;
+
         if (indicator == FWlenght) {
             indicator = 0;
             Wcount++;
@@ -54,4 +64,5 @@ int getLenght(char* text) {
 
     return lenght;
 }
+
 
