@@ -1,4 +1,7 @@
 #include"Header.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 
 void readFile(char* buffer, long long* size) {
 
@@ -27,34 +30,43 @@ void readFile(char* buffer, long long* size) {
     }
 }
 
-int findWord(char* text, long long Tlenght, char* Fword, int FWlenght) {
-    long long Wcount = 0;
-    int indicator = 0;
-    bool isLetter = false;
-    for (int i = 0; i <= Tlenght; i++) {
-        if ((int)Fword[indicator] == -72 || ((int)Fword[indicator] >= -32 && (int)Fword[indicator] <= -1))
-            isLetter = true;
 
-        if (isLetter) {
-            if ((int)text[i] == (int)(Fword[indicator]) || (int)text[i] == ((int)Fword[indicator] + 32) || (int)text[i] == ((int)Fword[indicator] - 32)) {
-                indicator++;
-            }
-            else
-                indicator = 0;
-        }
-        else if ((int)text[i] == (int)(Fword[indicator])) {
-            indicator++;
-        }
-        else indicator = 0;
+bool isLetter(char letter){
+    //for Russian
+    if (letter=='¸'||((int)letter>=(int)'à' && (int)letter<=(int)'ÿ')  || letter == '¨' || ((int)letter >= (int)'À' && (int)letter <= (int)'ß'))
+        return true;
+    //for English
+    if (((int)letter >= (int)'a' && (int)letter <= (int)'z') || ((int)letter >= (int)'A' && (int)letter <= (int)'Z'))
+        return true;
+    return false;
+}
+bool isSimilarLetter(char letter1,char letter2) {
+    if (isLetter(letter1) && isLetter(letter2)) {
+        if (letter1==letter2 || (int)letter1==(int)letter2-32|| (int)letter1 == (int)letter2 + 32)//32-is a step resizing letter 
+            return true;
 
-        if (indicator == FWlenght) {
-            indicator = 0;
-            Wcount++;
-        }
     }
 
-    return Wcount;
+    return false;
 }
+
+int findWord(char* text, long long Tlenght, char* Fword, int FWlenght) {
+    int Wcounter = 0;
+    bool similar;
+    for (int i = 0; i <= Tlenght-FWlenght; i++) {
+        similar = true;
+        for (int Windex=0; Windex < FWlenght; Windex++) {
+            if (!isSimilarLetter(Fword[Windex],text[i+Windex])) {
+                similar = false;
+            }
+        }
+        if (similar)
+            Wcounter++;
+    }
+
+    return Wcounter;
+}
+
 
 
 int getLenght(char* text) {

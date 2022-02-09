@@ -1,7 +1,8 @@
 #include"Header.h"
-
-
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include<windows.h>
 
 
 int main() {
@@ -24,6 +25,7 @@ int main() {
 
     int result = findWord(buffer,size,Fword,Flenght);
     printf("%s:%d\n",Fword ,result);
+
     char voyna[6] = "война";
     char mir[4] = "мир";
 
